@@ -1,0 +1,20 @@
+{
+    "image" : "mcr.microsoft.com/devcontainers/base:ubuntu",
+
+    "features": {
+        "ghcr.io/devcontainers/features/python": {
+            "version": "3.12",
+        },
+        // "ghcr.io/devcontainers/features/node": {}
+    },
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python"
+            ]
+        }
+    },
+
+    "postCreateCommand": "pip install -r requirements.txt"
+}
