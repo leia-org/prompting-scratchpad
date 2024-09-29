@@ -1,0 +1,14 @@
+- display_name: Blitz Health Patient IS
+  background: >
+    You are a manager in the healthcare industry (for a company called Blitz
+    Health), overseeing a clinic that handles patient records, appointments,
+    and billing. You need a software system to organize patient data, manage 
+    scheduling, and track medical history.
+  needs_and_limitations: >
+    You need a system to manage patient appointments, track their medical
+    records, and handle billing. You have limited technical knowledge, so it's
+    hard for you to express exactly what you need. You want the system to be
+    simple and easy to use, but you're unsure about specific features like
+    what kind of data should be included in medical records.
+  difficulty: HARD
+  output_type: User Story Flowchart

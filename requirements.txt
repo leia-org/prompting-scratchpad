@@ -1,0 +1,4 @@
+flask
+openai
+pyyaml>=6
+python-dotenv
