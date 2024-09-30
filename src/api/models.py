@@ -33,30 +33,19 @@ class Chat:
                 content=message
             ))
 
-        completion = OAI_CLIENT.chat.completions.create(
-            model = model,
-            messages = [ asdict(msg) for msg in self.messages ]
-        )
+        # completion = OAI_CLIENT.chat.completions.create(
+        #     model = model,
+        #     messages = [ asdict(msg) for msg in self.messages ]
+        # )
 
-        msg = completion.choices[0].message
+        # msg = completion.choices[0].message
+        msg = "<some message>"
         self.messages.append(Message(
             role = "assistant",
             content = str(msg)
         ))
 
         return str(msg)
-
-    @staticmethod
-    def get_client_data(client_name: str) -> dict:
-        with open(CLIENTS_FILE, "r") as f:
-            clients = yaml.safe_load(f)
-
-        matching_clients = [ c for c in clients if c['display_name'] == client_name ]
-        if len(matching_clients) != 1:
-            raise Exception(f"Did not find exactly one matching client!: "
-                            f"{[ c['display_name'] for c in matching_clients ]}")
-
-        return matching_clients[0]
 
     @staticmethod
     def read() -> Response:
@@ -113,7 +102,10 @@ class Chat:
         { Chat }
         """
         if not request.is_json:
-            return Response(status=HTTPStatus.BAD_REQUEST)
+            return Response(
+                response="Please provide a JSON request",
+                status=HTTPStatus.BAD_REQUEST
+            )
 
         payload = request.json
         assert payload is not None
@@ -124,14 +116,14 @@ class Chat:
                 status=HTTPStatus.BAD_REQUEST
             )
 
-        client = Chat.get_client_data(payload['client'])
+        client = Client.get_one(payload['client'])
         chat = Chat(
             uuid=uuid4(),
-            display_name=client['display_name'],
+            display_name=client.display_name,
             messages=[
                 Message(
                     role="system",
-                    content=render_template("client.system_prompt.jinja2", **client)
+                    content=render_template("client.system_prompt.jinja2", **asdict(client))
                 ),
             ]
         )
@@ -231,7 +223,51 @@ class Chat:
 
         return jsonify(asdict(chat))
 
+@dataclass
+class Client:
+    display_name: str
+    background: str
+    needs_and_limitations: str
+    difficulty: str
+    output_type: str
+
+    @staticmethod
+    def get_all() -> list["Client"]:
+        with open(CLIENTS_FILE, "r") as f:
+            clients_raw = yaml.safe_load(f)
+
+        clients = [
+            Client(**data)
+            for data in clients_raw
+        ]
+
+        return clients
+
+    @staticmethod
+    def get_one(client_name: str) -> "Client":
+
+        matching_clients = [ c for c in Client.get_all() if c.display_name == client_name ]
+        if len(matching_clients) != 1:
+            raise Exception(f"Did not find exactly one matching client!: "
+                            f"{[ c.display_name for c in matching_clients ]}")
+
+        return matching_clients[0]
+
+    @staticmethod
+    def enumerate() -> Response:
+        """
+        Input
+        ------
+        { }
+
+        Returns
+        ------
+        [ Client ]
+        """
+
+        return jsonify([ asdict(c) for c in Client.get_all() ])
 
 __all__ = [
     "Chat",
+    "Client"
 ]

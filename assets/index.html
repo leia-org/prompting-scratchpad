@@ -1,0 +1,22 @@
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="/assets/main.js"></script>
+    <div id="clientSelectionContainer">
+        <select name="client" id="clientSelector"></select>
+        <input type="submit" id="selectClientBtn">
+    </div>
+    <div hidden id="chat">
+        <div id="chatViewport">
+            <div id="chatPane">
+
+            </div>
+            <div id="chatEntry">
+                <textarea name="userMessage" id="userMessageBox" cols="30" rows="5"></textarea>
+                <input type="button" id="sendUserMessageBtn" value="submit">
+            </div>
+        </div>
+    </div>
+</body>

@@ -11,7 +11,7 @@ try:
 except Exception as e:
     logging.exception(f"Failed in loading environment variables!", exc_info=e)
 
-from models import Chat
+from models import Chat, Client
 
 app = Flask(__name__)
 
@@ -45,6 +45,8 @@ def main():
     Chat.read   = app.route("/chat", methods=["GET"   ])(Chat.read)
     Chat.update = app.route("/chat", methods=["PUT"   ])(Chat.update)
     Chat.delete = app.route("/chat", methods=["DELETE"])(Chat.delete)
+
+    Client.enumerate = app.route("/clients", methods=["GET"])(Client.enumerate)
 
     app.run(debug=True)
 

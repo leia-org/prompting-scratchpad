@@ -1,0 +1,22 @@
+
+#chatViewport {
+    text-align: center;
+    max-width: 50%;
+    min-width: 450px;
+}
+
+.message {
+    /**/
+}
+
+.otherMessage {
+    text-align: left;
+}
+
+.selfMessage {
+    text-align: right;
+}
+
+#userMessageBox {
+    width: 100%;
+}
