@@ -33,13 +33,13 @@ class Chat:
                 content=message
             ))
 
-        # completion = OAI_CLIENT.chat.completions.create(
-        #     model = model,
-        #     messages = [ asdict(msg) for msg in self.messages ]
-        # )
+        completion = OAI_CLIENT.chat.completions.create(
+            model = model,
+            messages = [ asdict(msg) for msg in self.messages ]
+        )
 
-        # msg = completion.choices[0].message
-        msg = "<some message>"
+        msg = completion.choices[0].message
+
         self.messages.append(Message(
             role = "assistant",
             content = str(msg)

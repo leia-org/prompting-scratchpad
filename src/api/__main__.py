@@ -10,6 +10,7 @@ try:
     _ = os.environ.get("OAI_API_KEY")
 except Exception as e:
     logging.exception(f"Failed in loading environment variables!", exc_info=e)
+    exit(1)
 
 from models import Chat, Client
 
